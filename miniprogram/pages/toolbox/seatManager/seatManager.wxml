@@ -1,0 +1,185 @@
+<!--miniprogram/pages/toolbox/seatManager/seatManager.wxml-->
+<cu-custom bgColor="bg-gradual-orange" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">阅览室座位管理</view>
+</cu-custom>
+<view class="cu-modal {{QRModal?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">二维码签到</view>
+      <view class="action" bindtap="hideQRModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-sm" wx:if="{{canShow}}">
+      <image src='{{showData.data.qrCodeUrl}}' mode="aspectFit" style="height:400rpx;width:400rpx;" />
+    </view>
+    <view class="padding-sm" bindtap="refreshQRCode" wx:else>
+      <image src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/failload.svg' />
+      <view class="padding-top">二维码已过期,点击刷新
+        <text class="cuIcon-refresh text-blue"></text>
+      </view>
+    </view>
+    <view class="cu-bar bg-white">
+      <view class="action margin-0 flex-sub solid-left" bindtap="hideQRModal">关闭</view>
+      <view class="action margin-0 flex-sub text-green " bindtap="sureSeat">
+        <text class="cuIcon-roundcheckfill"></text>我已扫码</view>
+      <view class="action margin-0 flex-sub text-blue solid-left" bindtap="refreshQRCode">刷新</view>
+    </view>
+  </view>
+</view>
+<block wx:if="{{showData.status==1 && !showData2}}">
+  <view class="cu-list menu card-menu sm-border margin-top">
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-titles text-blue"></text>
+        <text class="text-grey">到馆签到</text>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content padding">
+        <view class="text-xl">{{showData.data.selectedSite}}</view>
+        <view class="text-grey">{{showData.data.timeWarn}}</view>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content padding">
+        <form report-submit="true" bindsubmit="getFormId">
+          <button form-type="submit" class="cu-btn lg bg-blue shadow block" bindtap="showQRCode">二维码签到</button>
+        </form>
+      </view>
+      <view class="content padding">
+        <form report-submit="true" bindsubmit="getFormId">
+          <button form-type="submit" class="cu-btn lg bg-blue shadow block" bindtap="cancelSeat">取消预定</button>
+        </form>
+      </view>
+    </view>
+  </view>
+</block>
+<block wx:if="{{showData.status==0 && !showData2}}">
+  <view class="cu-list menu card-menu sm-border margin-top">
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-titles text-blue"></text>
+        <text class="text-grey">场馆列表</text>
+      </view>
+    </view>
+    <view class="cu-item" wx:for="{{showData.data}}" wx:key>
+      <view class="content padding">
+        <view class="text-grey flex">
+          <view class="basis-xl">{{item.room}}</view>
+          <view class="basis-xs" wx:if="{{item.statu==1}}">{{item.used}}/{{item.total}}</view>
+        </view>
+        <view class="text-grey">{{item.time}}</view>
+        <view class="text-red">{{item.warn}}</view>
+      </view>
+      <view class="action" wx:if="{{item.statu==1}}">
+        <form report-submit="true" bindsubmit="getFormId">
+          <button form-type="submit" class="cu-btn bg-blue shadow" bindtap="orderSeat" data-uri="{{item.uri}}" data-libid="{{item.libId}}">预约</button>
+        </form>
+      </view>
+      <view class="action" wx:if="{{item.statu==0}}">
+        <view class="cu-tag round bg-gray">close</view>
+      </view>
+    </view>
+  </view>
+  <view class='cu-tabbar-height'></view>
+</block>
+<block wx:if="{{showData.status==2 && !showData2}}">
+  <view class="cu-list menu card-menu sm-border margin-top">
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-titles text-blue"></text>
+        <text class="text-grey">学习中</text>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content padding">
+        <view class="text-xl">{{showData.data.selectedSite}}</view>
+        <view class="text-grey">{{showData.data.studiedTime}}</view>
+        <view class="text-grey">{{showData.data.timeWarning}}</view>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content padding">
+        <form report-submit="true" bindsubmit="getFormId">
+          <button form-type="submit" class="cu-btn lg bg-blue shadow block" bindtap="holdSeat">暂离</button>
+        </form>
+      </view>
+      <view class="content padding">
+        <form report-submit="true" bindsubmit="getFormId">
+          <button form-type="submit" class="cu-btn lg bg-blue shadow block" bindtap="showQRCode">续时</button>
+        </form>
+      </view>
+      <view class="content padding">
+        <form report-submit="true" bindsubmit="getFormId">
+          <button form-type="submit" class="cu-btn lg bg-blue shadow block" bindtap="cancelHadSeat">退座</button>
+        </form>
+      </view>
+    </view>
+  </view>
+</block>
+<block wx:if="{{showData.status==3 && !showData2}}">
+  <view class="cu-list menu card-menu sm-border margin-top">
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-titles text-blue"></text>
+        <text class="text-grey">暂离中</text>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content padding">
+        <view class="text-xl">{{showData.data.selectedSite}}</view>
+        <view class="text-grey">{{showData.data.timeWarn}}</view>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content padding">
+        <form report-submit="true" bindsubmit="getFormId">
+          <button form-type="submit" class="cu-btn lg bg-blue shadow block" bindtap="cancelHold">取消暂离</button>
+        </form>
+      </view>
+    </view>
+  </view>
+</block>
+<block wx:if="{{showData2}}">
+  <view class="cu-list menu orderBar" style="top:{{CustomBar}}px;">
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-titles text-blue"></text>
+        <text class="text-grey">座位:{{sid}}</text>
+      </view>
+      <view class="action">
+        <form report-submit="true" bindsubmit="getFormId">
+          <button form-type="submit" class="cu-btn bg-blue shadow" bindtap="creatSeat">预约座位</button>
+          <button form-type="submit" class="margin-left cu-btn bg-orange shadow" bindtap="backList">返回</button>
+        </form>
+      </view>
+    </view>
+  </view>
+  <movable-area scale-area="true" style="margin-top:100rpx;">
+    <movable-view style="width:{{(showData2.seatList.maxY+2)*35}}px;height:{{(showData2.seatList.maxX+2)*35}}px;" direction="all" scale scale-min="0.5" scale-max="3" scale-value="0.5">
+      <block wx:for="{{showData2.seatList.list}}" wx:key>
+        <view class="grid_cell {{sid==item.num?'grid_choose':'grid_1'}}" wx:if="{{item.type==1}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text bindtap="selSeat" data-key="{{item.x}},{{item.y}}" data-num="{{item.num}}">{{item.num}}</text>
+        </view>
+        <view class="grid_cell grid_2" wx:if="{{item.type==2}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text></text>
+        </view>
+        <view class="grid_cell grid_3" wx:if="{{item.type==3}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text></text>
+        </view>
+        <view class="grid_cell grid_active" wx:if="{{item.type==4}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text>{{item.num}}</text>
+        </view>
+         <view class="grid_cell grid_4" wx:if="{{item.type==5}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text>{{item.num}}</text>
+        </view>
+         <view class="grid_cell grid_5" wx:if="{{item.type==6}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text>{{item.num}}</text>
+        </view>
+      </block>
+    </movable-view>
+  </movable-area>
+
+</block>

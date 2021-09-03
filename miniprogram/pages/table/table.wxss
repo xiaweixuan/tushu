@@ -1,0 +1,58 @@
+/* miniprogram/pages/table/table.wxss */
+
+.tableItem {
+  position: absolute;
+  text-align: center;
+  border-radius: 10rpx;
+  padding: 5rpx;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.tableSmall {
+  color: white;
+  border-radius: 10rpx;
+  padding: 5rpx;
+}
+
+.cu-tableItem-height {
+  min-height: 180rpx;
+  height: 180rpx;
+}
+
+.cu-tableItem-height-2 {
+  min-height: 360rpx;
+  height: 360rpx;
+}
+
+.cu-tableItem-height-3 {
+  min-height: 540rpx;
+  height: 540rpx;
+}
+
+.basis-time {
+  flex-basis: 5.5%;
+}
+
+.basis-week {
+  flex-basis: 13.5%;
+}
+
+.basis-noweek {
+  flex-basis: 18.9%;
+}
+
+.real-week {
+  width: 13.5%;
+}
+
+.real-noweek {
+  width: 18.9%;
+}
+
+.bgImage {
+  background-size: 100% 100%;
+}
+
+.scrollTablePage {
+  height: 100vh;
+}

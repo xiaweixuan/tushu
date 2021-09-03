@@ -1,0 +1,132 @@
+<!--miniprogram/pages/toolbox/currentScore/currentScore.wxml-->
+<cu-custom bgColor="bg-gradual-orange" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">第二课堂</view>
+</cu-custom>
+<view class='cu-load load-modal' wx:if="{{loadModal}}">
+  <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+  <image src='/images/app.svg' class='svg' mode='aspectFit'></image>
+  <view class='gray-text'>查询中...</view>
+</view>
+
+<block wx:if='{{!showData}}'>
+  <view class="cu-list menu card-menu margin-top">
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-titles text-orange"></text> 第二课堂查询
+      </view>
+    </view>
+    <view class="cu-item">
+      <image src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/externScore.svg' />
+    </view>
+    <view class="cu-item">
+      <view class="content">
+        <view class="cu-form-group">
+          <text class="cuIcon-my text-grey margin-right"></text>
+          <input placeholder="学号" type='number' maxlength='10' bindinput='inputSno' value="{{sno}}"></input>
+        </view>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content">
+        <view class="cu-form-group">
+          <text class="cuIcon-lock text-grey margin-right"></text>
+          <input placeholder="第二课堂查分密码" password='true' maxlength='32' bindinput='inputPwd'></input>
+        </view>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content">
+        <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='queryScore'>查询</button>
+      </view>
+    </view>
+  </view>
+</block>
+<block wx:else>
+  <block wx:if='{{showData.code==0}}'>
+    <view class="cu-list menu card-menu margin-top">
+      <view class="cu-item">
+        <view class="content">
+          <text class="cuIcon-titles text-blue"></text> 查询结果为空
+        </view>
+      </view>
+      <view class="cu-item">
+        <view class='content flex justify-center'>
+          <text>用户名或密码错误，或校方服务器异常。</text>
+        </view>
+      </view>
+      <view class="cu-item">
+        <image src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/nodata.svg' />
+      </view>
+      <view class="cu-item">
+        <view class="content padding">
+          <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='backQuery'>返回</button>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="cu-list menu card-menu margin-top">
+      <view class='cu-item'>
+        <view class="content">
+          <text class="cuIcon-titles text-blue"></text>
+          <text>{{showData.student}}的基本信息</text>
+        </view>
+      </view>
+      <view class='cu-item' style="padding:0;">
+        <view class='content cu-list grid col-2'>
+          <view class="cu-item basis-xs">学院</view>
+          <view class="cu-item basis-xl">{{showData.college}}</view>
+          <view class="cu-item basis-xs">专业</view>
+          <view class="cu-item basis-xl">{{showData.major}}</view>
+          <view class="cu-item basis-xs">班级</view>
+          <view class="cu-item basis-xl">{{showData.class}}</view>
+          <view class="cu-item basis-xs">应取得</view>
+          <view class="cu-item basis-xl">{{showData.needScore}}</view>
+          <view class="cu-item basis-xs">总学分</view>
+          <view class="cu-item basis-xl">{{showData.totalScore}}</view>
+          <view class="cu-item basis-xs">已置换</view>
+          <view class="cu-item basis-xl">{{showData.exScore}}</view>
+          <view class="cu-item basis-xs">
+            <view class='padding'>进度</view>
+          </view>
+          <view class="cu-item basis-xl flex content" style="padding:0;">
+            <view class='padding content'>
+              <view class="cu-progress round sm striped active">
+                <view class="bg-blue" style="width:{{showData.totalScore/showData.needScore*100}}%;"></view>
+              </view>
+              <view>{{showData.totalScore/showData.needScore*100}}%</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <block wx:for="{{showData.scoreList}}" wx:key>
+      <view class="cu-list menu card-menu margin-top">
+        <view class='cu-item' bindtap='showMore' id="{{index}}">
+          <view class="content">
+            <text class="cuIcon-titles text-blue"></text>
+            <text>{{item.name}}</text>
+          </view>
+          <view class='action margin-right'>
+            <view class='text-red text-xl'>+{{item.score}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="cu-list menu card-menu margin-top margin-bottom" wx:if='{{item.hide==0}}'>
+        <view class='content cu-list grid col-2'>
+          <view class="cu-item basis-xs">类型</view>
+          <view class="cu-item basis-xl">{{item.category}}</view>
+          <view class="cu-item basis-xs">时间</view>
+          <view class="cu-item basis-xl">{{item.time}}</view>
+          <view class="cu-item basis-xs">录入</view>
+          <view class="cu-item basis-xl">{{item.method}}</view>
+          <view class="cu-item basis-xs">学分</view>
+          <view class="cu-item basis-xl">{{item.score}}</view>
+        </view>
+      </view>
+    </block>
+    <view class='cu-tabbar-height'></view>
+  </block>
+</block>

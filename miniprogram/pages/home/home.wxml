@@ -1,0 +1,488 @@
+<!--miniprogram/pages/home/home.wxml-->
+<scroll-view scroll-y style="height:95vh;">
+  <view class="cu-modal {{QRModal==true?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">二维码签到</view>
+        <view class="action" bindtap="hideQRModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-sm" wx:if="{{canShow}}">
+        <image src='{{libraryData.data.qrCodeUrl}}' mode="aspectFit" style="height:400rpx;width:400rpx;" />
+      </view>
+      <view class="padding-sm" bindtap="refreshQRCode" wx:else>
+        <image wx:if="{{libraryData.status==1}}" src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/failload.svg' />
+        <view class="padding-top">二维码已过期,点击刷新
+          <text class="cuIcon-refresh text-blue"></text>
+        </view>
+      </view>
+
+      <view class="cu-bar bg-white">
+        <view class="action margin-0 flex-sub solid-left" bindtap="hideQRModal">关闭</view>
+        <view class="action margin-0 flex-sub text-green " bindtap="sureSeat">
+          <text class="cuIcon-roundcheckfill"></text>我已扫码</view>
+        <view class="action margin-0 flex-sub text-blue solid-left" bindtap="refreshQRCode">刷新</view>
+      </view>
+    </view>
+  </view>
+  <block wx:if="{{!bothInfo}}">
+    <cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
+      <view slot="content">我的主页</view>
+    </cu-custom>
+    <view class="cu-bar bg-white solid-bottom fixed" style='top:{{CustomBar}}px'>
+      <view class="action">
+        <text class="cuIcon-titles text-blue"></text> 新手向导
+      </view>
+      <view class="action">
+        <button class="cu-btn bg-blue shadow" bindtap="numSteps" disabled='{{canNext}}' type=''>下一步</button>
+      </view>
+    </view>
+    <view class="bg-white padding fixedStep" style='top:{{CustomBar}}px;'>
+      <view class="action">
+        <view class="cu-steps">
+          <view class="cu-item {{index>num?'':'text-blue'}}" wx:for="{{numList}}" wx:key>
+            <text class="cuIcon-{{item.icon}}" data-index="{{index + 1}}"></text> {{item.name}}
+          </view>
+        </view>
+      </view>
+    </view>
+    <view style='height:280rpx;'></view>
+    <block wx:if='{{num==0}}'>
+      <view class="cu-list menu card-menu margin-top">
+        <block wx:if='{{studentInfo!=""}}'>
+          <view class="cu-item">
+            <view class="content padding">
+              <text class="cuIcon-title text-green"></text>您已经完成登录可以进行下一步了
+            </view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="cu-item">
+            <view class="content">
+              <view class="cu-form-group">
+                <text class="cuIcon-my text-grey margin-right"></text>
+                <input placeholder="学号" type='number' maxlength='10' bindinput='inputSno'></input>
+              </view>
+            </view>
+          </view>
+          <view class="cu-item">
+            <view class="content">
+              <view class="cu-form-group">
+                <text class="cuIcon-lock text-grey margin-right"></text>
+                <input placeholder="教务系统密码" password='true' maxlength='32' bindinput='inputPwd'></input>
+              </view>
+            </view>
+          </view>
+          <view class="cu-item">
+            <view class="content">
+              <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='normalLogin'>登录</button>
+            </view>
+          </view>
+        </block>
+      </view>
+
+      <view class="cu-list menu card-menu margin-top margin-bottom" wx:if="{{!studentInfo}}">
+        <view class="cu-item">
+          <view class="content">
+            <text class="cuIcon-title text-blue"></text>常见问题
+          </view>
+        </view>
+        <view class="cu-item">
+          <view class="content padding">
+            <view>Q:学号或密码错误</view>
+            <view>A:出现此问题是由于您的学号或密码输入有误，请仔细核对</view>
+          </view>
+        </view>
+        <view class="cu-item">
+          <view class="content padding">
+            <view>Q:网络异常</view>
+            <view>A:当前网络状态不佳或教务系统服务器繁忙,重启小程序或过一段时间再试</view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:if='{{num==1}}'>
+      <view class="cu-list menu card-menu margin-top margin-bottom">
+        <view class="cu-item">
+          <view class="content">
+            <text class="cuIcon-title text-green"></text>微信授权
+          </view>
+        </view>
+        <block wx:if='{{userInfo!=""}}'>
+          <view class="cu-item">
+            <view class="content padding">
+              您已经完成微信授权可以进行下一步了
+            </view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="cu-item">
+            <view class="content padding">
+              同学，您暂未获取微信授权，将无法正常使用小程序的功能~如需要正常使用，请点击“授权登录”按钮，打开头像、昵称等信息的授权。
+            </view>
+          </view>
+          <view class="cu-item">
+            <view class="content">
+              <button class="cu-btn block bg-green margin-tb-sm lg shadow" open-type='getUserInfo' bindgetuserinfo='getUserInfo'>
+                <text class="cuIcon-weixin text-white"></text> 微信授权</button>
+            </view>
+          </view>
+        </block>
+      </view>
+    </block>
+    <block wx:if='{{num==2}}'>
+      <view class="cu-list menu card-menu margin-top margin-bottom">
+        <view class="cu-item">
+          <view class="content">
+            <text class="cuIcon-title text-red"></text>大功告成
+          </view>
+        </view>
+
+        <view class="cu-item">
+          <image src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/finish.svg' />
+        </view>
+        <view class="cu-item">
+          <view class="content padding">
+            <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='startApp'>开始使用</button>
+          </view>
+        </view>
+      </view>
+    </block>
+
+  </block>
+
+  <block wx:else>
+    <view class="UCenter-bg">
+      <view class="cu-avatar xl round" style="background-image:url({{userInfo.avatarUrl}})" wx:if="{{userInfo}}">
+        <view class="cu-tag badge {{userInfo.gender==0?'cuIcon-emoji bg-green':userInfo.gender==1?'cuIcon-male bg-blue':'cuIcon-female bg-pink'}}"></view>
+      </view>
+      <image class="cu-avatar xl round" src="/images/app.svg" wx:else />
+      <view class="text-xl margin-top-sm">{{studentInfo.studentName}} ({{studentInfo.sno}})
+      </view>
+      <view class="margin-top-sm">
+        <text>{{studentInfo.college}}({{studentInfo.tlass}})</text>
+      </view>
+      <image src="https://ylmc2018-1256413011.cos.ap-beijing.myqcloud.com/colorui/wave.gif" mode="scaleToFill" class="gif-wave"></image>
+    </view>
+    <view class="padding flex text-center text-grey bg-white shadow-warp">
+      <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl text-orange">{{studentInfo.loginCount}}</view>
+        <view class="margin-top-sm">
+          <text class="cuIcon-selectionfill"></text> 累计登录</view>
+      </view>
+      <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl text-blue">{{leaseTime}}</view>
+        <view class="margin-top-sm">
+          <text class="cuIcon-timefill"></text> 放假倒计时</view>
+      </view>
+      <view class="flex flex-sub flex-direction">
+        <view class="text-xxl text-green"> {{weather.weatherData.temperature}}℃</view>
+        <view class="margin-top-sm">
+          <text class="cuIcon-locationfill"></text> {{weather.region}}</view>
+      </view>
+    </view>
+    <!-- 公告 -->
+    <view class='cu-bar adsec'>
+      <view class="margin-left">
+        <text class="margin-left cuIcon-notificationfill text-blue"></text>
+      </view>
+      <swiper class="swiper_container" autoplay="true" circular="true" interval="2000" vertical="true">
+        <block wx:for="{{noticeData.notice}}" wx:key wx:if="{{index<3}}">
+          <navigator url="/pages/toolbox/notice/notice" open-type="navigate">
+            <swiper-item>
+              <view class="swiper_item">{{item.title}}</view>
+            </swiper-item>
+          </navigator>
+        </block>
+      </swiper>
+    </view>
+    <!-- 公告 end -->
+
+    <view class="cu-load bg-white {{libraryLoad?'loading':''}}"></view>
+    <block wx:if="{{libraryData.status==1}}">
+      <view class="cu-list menu solid-top">
+        <view class="cu-item">
+          <view class="content">
+            <text class="cuIcon-titles text-blue"></text>
+            <text class="text-grey">图书馆座位预约</text>
+          </view>
+        </view>
+        <view class="cu-item">
+          <view class="content padding">
+            <view class="text-xl">{{libraryData.data.selectedSite}}</view>
+            <view class="text-grey">{{libraryData.data.timeWarn}}</view>
+            <view class="flex">
+              <view class="content padding-sm">
+                <button class="cu-btn bg-blue shadow block" bindtap="showQRCode">二维码签到</button>
+              </view>
+              <view class="content padding-sm">
+                <button class="cu-btn bg-blue shadow block" bindtap="cancelSeat">取消预订</button>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:if="{{libraryData.status==2}}">
+      <view class="cu-list menu solid-top">
+        <view class="cu-item">
+          <view class="content">
+            <text class="cuIcon-titles text-blue"></text>
+            <text class="text-grey">图书馆学习中</text>
+          </view>
+        </view>
+        <view class="cu-item">
+          <view class="content padding">
+            <view class="text-xl">{{libraryData.data.selectedSite}}</view>
+            <view class="text-grey">{{libraryData.data.studiedTime}}</view>
+            <view class="text-grey">{{libraryData.data.timeWarning}}</view>
+            <view class="flex">
+              <view class="content padding-sm">
+                <button class="cu-btn bg-blue shadow block" bindtap="holdSeat">暂离</button>
+              </view>
+              <view class="content padding-sm">
+                <button class="cu-btn bg-blue shadow block" bindtap="showQRCode">续时</button>
+              </view>
+              <view class="content padding-sm">
+                <button class="cu-btn bg-blue shadow block" bindtap="cancelHadSeat">退座</button>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:if="{{libraryData.status==3}}">
+      <view class="cu-list menu solid-top">
+        <view class="cu-item">
+          <view class="content">
+            <text class="cuIcon-titles text-blue"></text>
+            <text class="text-grey">图书馆暂离中</text>
+          </view>
+        </view>
+        <view class="cu-item">
+          <view class="content padding">
+            <view class="text-xl">{{libraryData.data.selectedSite}}</view>
+            <view class="text-grey">{{libraryData.data.timeWarn}}</view>
+            <view class="flex">
+              <view class="content padding-sm">
+                <button class="cu-btn bg-blue shadow block" bindtap="cancelHold">取消暂离</button>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:if="{{tableInfo}}">
+      <block wx:if="{{tableInfo.subjectCnt[week]>0}}">
+        <view class="cu-list menu solid-top" style="margin-top:0;">
+          <block wx:for='{{tableInfo.subject}}' wx:key>
+
+            <view class='cu-item' wx:if="{{item.week==week  && item.weekstart<=teachWeek && item.weekend>=teachWeek}}">
+              <view class='content cu-list padding-sm'>
+                <view class="cu-item flex">
+                  <view class='text-xtl text-blue' style="flex-basis: 15%;"> {{item.start}}-{{item.start+item.span-1}}</view>
+                  <view class="text-xl" style="flex-basis: 85%;">{{item.course}}
+                    <text class="cuIcon-peoplefill text-gray text-sm"></text>
+                    <text class="text-sm text-gray">{{item.teacher}}</text>
+                  </view>
+                </view>
+                <view class="cu-item">
+                  <view class='text-gray flex'>
+                    <view style="flex-basis: 30%;">
+                      <text class="cuIcon-timefill text-gray"></text> {{item.time}}</view>
+                    <!-- <view style="flex-basis: 20%;">
+                      
+                    </view> -->
+                    <view style="flex-basis: 70%;">
+                      <text class="cuIcon-locationfill text-gray"></text> {{item.address}}
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="cu-list menu solid-top" style="margin-top:0;">
+          <view class="cu-item">
+            <view class="content padding">
+              <text class="cuIcon-remind text-olive"></text>今天没课，好好休息吧
+            </view>
+          </view>
+        </view>
+      </block>
+    </block>
+
+
+    <block wx:if="{{!showAllItem}}">
+      <view class="cu-list grid col-4 no-border solid-top" style="margin-top:0;">
+        <view class="cu-item" bindtap="useTool" data-tid="1">
+          <view>
+            <image src="/images/tool/calendar.svg" class="toolItem" />
+          </view>
+          <text>校历</text>
+        </view>
+        <view class="cu-item" bindtap="useTool" data-tid="2">
+          <view>
+            <image src="/images/tool/library.svg" class="toolItem" />
+          </view>
+          <text>图书馆</text>
+        </view>
+        <view class="cu-item" bindtap="useTool" data-tid="3">
+          <view>
+            <image src="/images/tool/room.svg" class="toolItem" />
+          </view>
+          <text>空闲教室</text>
+        </view>
+        <view class="cu-item" bindtap="useTool" data-tid="4">
+          <view>
+            <image src="/images/tool/score.svg" class="toolItem" />
+          </view>
+          <text>考试成绩</text>
+        </view>
+      </view>
+      <view class="menu bg-white solid-bottom" style="min-height:80rpx;">
+        <view class="cu-item" bindtap="changeItem">
+          <view class="content flex justify-center align-center" style="min-height:80rpx;">
+            <view class="text-blue"><text class="cuIcon-unfold text-blue"></text>点我查看更多</view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="cu-list grid col-4 no-border solid-top" style="margin-top:0;">
+        <view class="cu-item" bindtap="useTool" data-tid="1">
+          <view>
+            <image src="/images/tool/calendar.svg" class="toolItem" />
+          </view>
+          <text>校历</text>
+        </view>
+        <view class="cu-item" bindtap="useTool" data-tid="2">
+          <view>
+            <image src="/images/tool/library.svg" class="toolItem" />
+          </view>
+          <text>图书馆</text>
+        </view>
+        <view class="cu-item" bindtap="useTool" data-tid="3">
+          <view>
+            <image src="/images/tool/room.svg" class="toolItem" />
+          </view>
+          <text>空闲教室</text>
+        </view>
+        <view class="cu-item" bindtap="useTool" data-tid="4">
+          <view>
+            <image src="/images/tool/score.svg" class="toolItem" />
+          </view>
+          <text>考试成绩</text>
+        </view>
+         <view class="cu-item" bindtap="useTool" data-tid="6">
+          <view>
+            <image src="/images/tool/pe.svg" class="toolItem" />
+          </view>
+          <text>体测成绩</text>
+        </view>
+        <view class="cu-item" bindtap="useTool" data-tid="5">
+          <view>
+            <image src="/images/tool/extendScore.svg" class="toolItem" />
+          </view>
+          <text>第二课堂</text>
+        </view>
+        <view class="cu-item" bindtap="useTool" data-tid="10">
+          <view>
+            <image src="/images/tool/total.svg" class="toolItem" />
+          </view>
+          <text>学分统计</text>
+        </view>
+        <view class="cu-item" bindtap="useTool" data-tid="8">
+          <view>
+            <image src="/images/tool/recycle.svg" class="toolItem" />
+          </view>
+          <text>垃圾分类</text>
+        </view>
+         <view class="cu-item" bindtap="useTool" data-tid="7">
+          <view>
+            <image src="/images/tool/translate.svg" class="toolItem" />
+          </view>
+          <text>机器翻译</text>
+        </view>
+        <!-- <view class="cu-item" bindtap="useTool" data-tid="9">
+          <view>
+            <image src="/images/tool/fix.svg" class="toolItem" />
+          </view>
+          <text>宿舍报修</text>
+        </view> -->
+      </view>
+      <view class="menu bg-white solid-bottom" style="min-height:80rpx;">
+        <view class="cu-item" bindtap="changeItem">
+          <view class="content flex justify-center align-center" style="min-height:80rpx;">
+            <view><text class="cuIcon-fold text-olive"></text></view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <view class="cu-list menu margin-top" wx:if="{{studentInfo.lastedLogin}}">
+      <view class="cu-item">
+        <view class="action">
+          <text class="cuIcon-titles text-blue"></text> 登录信息
+        </view>
+      </view>
+      <view class="cu-item">
+        <view class="content">
+          <text class="cuIcon-weixin text-green"></text>
+          <text class="text-gray">上次登录:{{studentInfo.lastedLogin}}</text>
+        </view>
+      </view>
+      <view class="cu-item arrow">
+        <view class="content" bindtap="exitLogin">
+          <text class="cuIcon-exit text-olive"></text>
+          <text class="text-gray">切换账号</text>
+        </view>
+      </view>
+    </view>
+    <view class="cu-bar justify-center bg-white solid-bottom margin-top-sm">
+      <view class="action sub-title">
+        <text class="text-xl text-bold text-blue">关于我们</text>
+        <text class="text-ABC text-blue">about</text>
+      </view>
+    </view>
+    <view class="cu-list menu">
+      <view class="cu-item">
+        <view class="content">
+          <text class="cuIcon-peoplefill text-blue"></text>
+          <text class="text-grey">开发者:YLMC</text>
+        </view>
+      </view>
+      <view class="cu-item">
+        <view class="content">
+          <text class="cuIcon-tagfill text-brown"></text>
+          <text class="text-grey">版本:20190901 (云服务)</text>
+        </view>
+      </view>
+      <view class="cu-item arrow">
+        <button class="cu-btn content" bindtap='helpDev'>
+          <text class="cuIcon-appreciatefill text-red"></text>
+          <text class="text-grey">支持作者</text>
+        </button>
+      </view>
+      <view class="cu-item">
+        <button class="cu-btn content">
+          <text class="cuIcon-communityfill text-olive"></text>
+          <text class="text-grey">加入测试群(153045000)</text>
+        </button>
+      </view>
+      <view class="cu-item arrow">
+        <button class="cu-btn content" open-type="feedback">
+          <text class="cuIcon-creativefill text-yellow"></text>
+          <text class="text-grey">反馈建议</text>
+        </button>
+      </view>
+    </view>
+
+    <view class="solid-bottom padding"></view>
+    <view class='text-center text-gray padding card-menu'>我是有底线的</view>
+
+  </block>
+  <view class='cu-tabbar-height'></view>
+</scroll-view>

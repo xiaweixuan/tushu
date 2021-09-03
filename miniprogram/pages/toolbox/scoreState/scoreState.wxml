@@ -1,0 +1,80 @@
+<cu-custom bgColor="bg-gradual-green" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">学分统计</view>
+</cu-custom>
+<view class='cu-load load-modal' wx:if="{{loadModal}}">
+  <image src='/images/app.svg' class='svg' mode='aspectFit'></image>
+  <view class='gray-text'>查询中...</view>
+</view>
+<block wx:if="{{showData}}">
+  <view class="cu-bar bg-white solid-bottom">
+    <view class="action">
+      <text class="cuIcon-titles text-blue"></text> 课程类别 (科目数/获得学分)
+    </view>
+    <view class="action">
+      总计学分:±{{showData.total}}
+    </view>
+  </view>
+  <view class="cu-list menu">
+    <block wx:for="{{showData.scoreList}}" wx:key>
+      <view class="cu-item flex justify-start" id="{{index}}" bindtap="showBigMore">
+        <view class="content">
+          <text class="cuIcon-roundright text-gray"></text>
+          <text>{{item.lbmc}}(共{{item.count}}门,已获得{{item.score}}分)</text>
+        </view>
+      </view>
+      <block wx:for="{{item.list}}" wx:for-item="item1" wx:for-index="index1" wx:key>
+        <view class="cu-item" data-cid="{{index}}" id="{{index1}}" bindtap="showMore" wx:if="{{item.hide==0}}">
+          <view class="content padding-left">
+            <block wx:if="{{item1.zpcj=='合格' || item1.zpcj>=60}}">
+              <text class="cuIcon-roundcheckfill text-green"></text>
+            </block>
+            <block wx:else>
+              <text class="cuIcon-roundclosefill text-red"></text>
+            </block>
+            <text>{{item1.kcm}}</text>
+          </view>
+          <view class="action">
+            <text class="text-green" wx:if="{{item1.zpcj=='合格' || item1.zpcj>=60}}">
+									{{item1.zpcj}}
+								</text>
+            <text class="text-red" wx:else>
+									{{item1.zpcj}}
+								</text>
+          </view>
+        </view>
+        <view class="cu-item" wx:if="{{item1.hide==0 && item.hide==0}}">
+          <view class="content padding">
+            <view class='grid col-2'>
+              <view class="cu-item padding-left">
+                课程代码:{{item1.kch}}
+              </view>
+              <view class="cu-item padding-left">
+                课程性质:{{item1.category}}
+              </view>
+              <view class="cu-item padding-left">
+                学年学期:{{item1.xn}}-{{item1.xq}}
+              </view>
+              <view class="cu-item padding-left">
+                任课教师:{{item1.teacher}}
+              </view>
+              <view class="cu-item padding-left">
+                学分:{{item1.xf}}
+              </view>
+              <view class="cu-item padding-left">
+                绩点:{{item1.jd}}
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </block>
+  </view>
+  <view class="cu-list menu bg-white">
+    <view class="cu-item">
+      <view class="content">
+        总绩点：{{showData.jd}} <text class="text-gray">温馨提示：本计算结果仅供参考！</text>
+      </view>
+    </view>
+  </view>
+</block>

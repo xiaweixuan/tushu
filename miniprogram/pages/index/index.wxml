@@ -1,0 +1,24 @@
+<!--miniprogram/pages/index/index.wxml-->
+<home wx:if="{{PageCur=='home'}}"></home>
+<table wx:if="{{PageCur=='table'}}"></table>
+<tool wx:if="{{PageCur=='tool'}}"></tool>
+<view class="cu-bar tabbar bg-white shadow foot">
+  <view class="action" bindtap="NavChange" data-cur="home">
+    <view class='cuIcon-cu-image'>
+      <image src="/images/tabbar/home{{PageCur=='home'?'_cur':''}}.png"></image>
+    </view>
+    <view class="{{PageCur=='home'?'text-blue':'text-gray'}}">首页</view>
+  </view>
+  <view class="action" bindtap="NavChange" data-cur="table">
+    <view class='cuIcon-cu-image'>
+      <image src="/images/tabbar/table{{PageCur=='table'?'_cur':''}}.png"></image>
+    </view>
+    <view class="{{PageCur=='table'?'text-blue':'text-gray'}}">课表</view>
+  </view>
+  <view class="action" bindtap="NavChange" data-cur="tool">
+    <view class='cuIcon-cu-image'>
+      <image src="/images/tabbar/tool{{PageCur=='tool'?'_cur':''}}.png"></image>
+    </view>
+    <view class="{{PageCur=='tool'?'text-blue':'text-gray'}}">资讯</view>
+  </view>
+</view>

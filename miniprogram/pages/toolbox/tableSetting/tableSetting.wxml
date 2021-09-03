@@ -1,0 +1,57 @@
+<!--miniprogram/pages/toolbox/tableSetting/tableSetting.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">课程表设置</view>
+</cu-custom>
+<view class='cu-list menu'>
+  <view class='cu-item'>
+    <view class="content">
+      <text class="text-grey">显示周六日课程</text>
+    </view>
+    <view class='action'>
+      <switch class="blue radius sm" checked="{{switchChecked1}}" bindchange='switch1Change'></switch>
+    </view>
+  </view>
+  <view class='cu-item'>
+    <view class="content">
+      <text class="text-grey">隐藏课程表背景</text>
+    </view>
+    <view class='action'>
+      <switch class="blue radius sm" checked="{{switchChecked2}}" bindchange='switch2Change'></switch>
+    </view>
+  </view>
+   <view class='cu-item'>
+    <view class="content">
+      <text class="text-grey">课程切换为非本周课程</text>
+    </view>
+    <view class='action'>
+      <switch class="blue radius sm" checked="{{switchChecked3}}" bindchange='switch3Change'></switch>
+    </view>
+  </view>
+   <view class='cu-item'>
+    <view class="content">
+      <text class="text-grey">重新获取课表</text>
+    </view>
+    <view class='action'>
+      <button class="cu-btn bg-blue shadow" bindtap="reTable"  type=''>下载课表</button>
+    </view>
+  </view>
+  <view class='cu-item'>
+    <view class="content">
+      <text class="text-grey">自定义壁纸</text>
+    </view>
+    <view class='action'>
+      <button class="cu-btn bg-blue shadow" bindtap="userImg"  type=''>选择图片</button>
+    </view>
+  </view>
+  <view class='cu-item'>
+    <view class="content">
+      <text class="text-grey">删除自定义壁纸</text>
+    </view>
+    <view class='action'>
+      <button class="cu-btn bg-blue shadow" bindtap="deleImg"  type=''>删除图片</button>
+    </view>
+  </view>
+ 
+
+</view>

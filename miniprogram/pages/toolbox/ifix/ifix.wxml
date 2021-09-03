@@ -1,0 +1,72 @@
+<!--miniprogram/pages/toolbox/ifix/ifix.wxml-->
+<cu-custom bgColor="bg-gradual-blue" :isBack="true">
+  <block slot="backText">返回</block>
+  <block slot="content">报修</block>
+</cu-custom>
+<form>
+  <view class="cu-form-group">
+    <view class="title">联系人</view>
+    <input placeholder="请输入您的姓名" name="username"></input>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">联系电话</view>
+    <input placeholder="请输入联系电话" name="phone"></input>
+  </view>
+  <view class="cu-form-group margin-top">
+    <view class="title">选择区域</view>
+    <picker value="{{index1}}" range="{{picker1}}" range-key="area" bindchange="pickerChange1">
+      <view class="picker">
+        {{index1>-1?picker1[index1].area:'请选择区域'}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group margin-top">
+    <view class="title">选择楼宇</view>
+    <picker value="{{index2}}" range="{{picker2}}" bindchange="pickerChange2">
+      <view class="picker">
+        {{index2>-1?picker2[index2]:'请选择楼宇'}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">详细地址</view>
+    <input placeholder="请输入详细地址" name="address"></input>
+  </view>
+  <view class="cu-form-group margin-top">
+    <view class="title">报修项目</view>
+    <picker value="{{index3}}" range="{{picker3}}" range-key="fixPro" bindchange="pickerChange3">
+      <view class="picker">
+        {{index3>-1?picker3[index3].fixPro:'请选择报修项目'}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group align-start">
+    <view class="title">问题说...</view>
+    <!-- <textarea maxlength="-1" :disabled="modalName!=null" bindinput="textareaBInput" placeholder="长度5-200个字之间.写下详细的报修内容,有助于我们的工作人员快速帮你解决问题"></textarea> -->
+  </view>
+  <!-- <view class="cu-bar bg-white margin-top">
+    <view class="action">
+      上传图片
+    </view>
+    <view class="action">
+      {{imgList.length}}/4
+    </view>
+  </view>
+  <view class="cu-form-group">
+    <view class="grid col-4 grid-square flex-sub">
+      <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
+        <image :src="imgList[index]" mode="aspectFill"></image>
+        <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
+          <text class='cuIcon-close'></text>
+        </view>
+      </view>
+      <view class="solids" @tap="ChooseImage" v-if="imgList.length<4">
+        <text class='cuIcon-cameraadd'></text>
+      </view>
+    </view>
+  </view> -->
+  <view class="padding flex flex-direction">
+    <button class="cu-btn bg-blue margin-tb-sm lg" bindtap="submit">提交报修申请</button>
+  </view>
+</form>
+<view class="cu-tabbar-height"></view>

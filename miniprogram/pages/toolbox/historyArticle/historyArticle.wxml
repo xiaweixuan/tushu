@@ -1,0 +1,22 @@
+<!--miniprogram/pages/toolbox/historyArticle/historyArticle.wxml-->
+<scroll-view scroll-y class="scrollPage">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="content">往期好文</view>
+</cu-custom>
+<view class="cu-timeline">
+  <block wx:for="{{articles}}" wx:key>
+  <view class="cu-item text-blue">
+    <view class="bg-blue content shadow" bindtap="showArticle" data-index="{{index}}">
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-white text-blue">{{item.date}}</view>
+        <view class="cu-tag line-white">《{{item.article.title}}》 {{item.article.autor}}</view>
+      </view>
+      <view class="margin-top-sm text-content">
+        <view>{{item.article.gSentence}}</view>
+      </view>
+    </view>
+  </view>
+  </block>
+</view>
+<view class='cu-tabbar-height'></view>
+</scroll-view>

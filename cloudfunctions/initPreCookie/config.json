@@ -1,0 +1,9 @@
+{
+  "triggers": [
+    {
+      "name": "updateCookie",
+      "type": "timer",
+      "config": "0 50 21 * * * *"
+    }
+  ]
+}

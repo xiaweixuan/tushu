@@ -1,0 +1,17 @@
+/* miniprogram/pages/toolbox/article/article.wxss */
+.lightThemeBG{
+  background-color:rgb(255,250,232);
+}
+
+.lightThemeColor{
+  color:rgb(36,140,146);
+}
+
+
+.darkThemeBG{
+  background-color: #191919;
+}
+
+.darkThemeColor{
+  color:#9a9a9a;
+}

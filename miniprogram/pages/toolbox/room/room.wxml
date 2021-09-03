@@ -1,0 +1,91 @@
+<!--miniprogram/pages/toolbox/room/room.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">空闲教室</view>
+</cu-custom>
+<view class='cu-load load-modal' wx:if="{{loadModal}}">
+  <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+  <image src='/images/app.svg' class='svg' mode='aspectFit'></image>
+  <view class='gray-text'>查询中...</view>
+</view>
+<block wx:if='{{!showData}}'>
+  <view class="cu-list menu card-menu margin-top">
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-titles text-blue"></text> 空闲教室查询
+      </view>
+    </view>
+    <view class="cu-item">
+      <image src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/room.svg' style='max-height:300rpx;' /> 
+    </view>
+    <view class="cu-item">
+      <view class="content flex justify-center">
+        <view class="text-xxl">
+          <picker mode="multiSelector" bindchange="bindWeekAddrChange" value="{{weekIndex}}" range="{{weekData}}">
+            <view class="picker">
+              {{weekData[0][weekIndex[0]]}} {{weekData[1][weekIndex[1]]}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content flex justify-center padding grid col-5">
+        <view wx:for="{{jc}}" wx:key class='padding'>
+          <button class='cu-btn bg-{{jcValue[index]==1?"blue":"white"}} text-lg' data-id="{{index}}" bindtap='selectJc'>
+            {{jc[index]}}
+          </button>
+        </view>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content padding">
+        <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='queryRoom'>查询</button>
+      </view>
+    </view>
+  </view>
+  <view class='cu-tabbar-height'></view>
+</block>
+<block wx:else>
+  <block wx:if="{{showData.room.length==0}}">
+    <view class="cu-list menu card-menu margin-top">
+      <view class="cu-item">
+        <view class="content">
+          <text class="cuIcon-titles text-blue"></text> 查询结果为空
+        </view>
+      </view>
+      <view class="cu-item">
+        <image src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/nodata.svg' />
+      </view>
+      <view class="cu-item">
+        <view class="content padding">
+          <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='backQuery'>返回</button>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="cu-list menu card-menu margin-top">
+      <view class="cu-item">
+        <view class="content flex justify-between">
+          <view>教室地点</view>
+          <view>教室类型</view>
+          <view>考试座位</view>
+          <view>占地面积</view>
+        </view>
+      </view>
+      <block wx:for='{{showData.roomList}}' wx:key>
+        <view class="cu-item">
+          <view class="content flex justify-between">
+            <view>{{item.address}}</view>
+            <view>{{item.category}}</view>
+            <view>{{item.kszw}}</view>
+            <view>{{item.area}}</view>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view class='cu-tabbar-height'></view>
+  </block>
+
+</block>

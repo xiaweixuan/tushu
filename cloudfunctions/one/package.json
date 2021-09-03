@@ -1,0 +1,19 @@
+{
+  "name": "one",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cos-nodejs-sdk-v5": "^2.5.12",
+    "fs": "0.0.1-security",
+    "got": "^9.6.0",
+    "image-download": "^1.2.0",
+    "moment": "^2.24.0",
+    "wx-server-sdk": "^0.8.1"
+  }
+}

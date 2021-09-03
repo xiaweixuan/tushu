@@ -1,0 +1,127 @@
+{
+  "tool": [
+    {
+      "category": "常用工具",
+      "visible": true,
+      "color": "green",
+      "item": [
+        {
+          "tid": 1,
+          "name": "校历",
+          "icon": "calendar.svg",
+          "visible": true,
+          "online": true
+        },
+        {
+          "tid": 2,
+          "name": "图书馆",
+          "icon": "library.svg",
+          "visible": true,
+          "online": true
+        },
+        {
+          "tid": 3,
+          "name": "空闲教室",
+          "icon": "room.svg",
+          "visible": true,
+          "online": true
+        }
+      ]
+    },
+    {
+      "category": "成绩查询",
+      "visible": true,
+      "color": "orange",
+      "item": [
+        {
+          "tid": 4,
+          "name": "期末成绩",
+          "icon": "score.svg",
+          "visible": true,
+          "online": true
+        },
+        {
+          "tid": 5,
+          "name": "历年成绩",
+          "icon": "allscore.svg",
+          "visible": true,
+          "online": true
+        },
+        {
+          "tid": 6,
+          "name": "学年成绩",
+          "icon": "filterscore.svg",
+          "visible": true,
+          "online": true
+        },
+        {
+          "tid": 7,
+          "name": "学分统计",
+          "icon": "stuInfo.svg",
+          "visible": true,
+          "online": true
+        },
+        {
+          "tid": 8,
+          "name": "体测成绩",
+          "icon": "pe.svg",
+          "visible": true,
+          "online": true
+        },
+        {
+          "tid": 9,
+          "name": "第二课堂",
+          "icon": "externScore.svg",
+          "visible": true,
+          "online": true
+        }
+      ]
+    },
+    {
+      "category": "实用工具",
+      "visible": true,
+      "color": "blue",
+      "item": [
+        {
+          "tid": 10,
+          "name": "机器翻译",
+          "icon": "translate.svg",
+          "visible": true,
+          "online": true
+        },
+        {
+          "tid": 12,
+          "name": "垃圾分类",
+          "icon": "recycle.svg",
+          "visible": true,
+          "online": true
+        }
+      ]
+    }
+  ],
+  "cloudurl": "cloud://ylmc2019.796c-ylmc2019-1256364330/toolbox/",
+  "theme": [
+    {
+      "title": "默认主题",
+      "theme": "demo",
+      "bgcolor": "blue",
+      "selected": true,
+      "isfree": true
+    },
+    {
+      "title": "绿色精灵",
+      "theme": "flowerpot",
+      "bgcolor": "green",
+      "selected": false,
+      "isfree": false
+    },
+    {
+      "title": "精美插画",
+      "theme": "illustrator",
+      "bgcolor": "purple",
+      "selected": false,
+      "isfree": false
+    }
+  ],
+  "themesel": "demo"
+}

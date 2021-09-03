@@ -1,0 +1,19 @@
+<!--miniprogram/pages/toolbox/article/article.wxml-->
+<cu-custom bgColor="bg-{{theme=='light'?'gradual-green':'black'}}" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">《{{article.title}}》</view>
+</cu-custom>
+<view class="cu-bar bg-{{theme=='light'?'white':'black'}} search fixed" style="top:{{CustomBar}}px">
+  <view class='action'>
+    <button class="cu-btn bg-blue margin-tb-sm shadow" bindtap='themeChange'>{{themeButton}}</button>
+    <button class="margin-left cu-btn bg-blue margin-tb-sm shadow" bindtap='maxSize'>放大字号</button>
+    <button class="margin-left cu-btn bg-blue margin-tb-sm shadow" bindtap='minSize'>缩小字号</button>
+  </view>
+</view>
+<view style="margin-top:100rpx;">
+  <scroll-view scroll-y style="height:90vh;" bindscroll="scollPage" scroll-top="{{stop}}">
+    <view class="{{theme}}ThemeBG {{theme}}ThemeColor text-xl padding" wx:for="{{article.p}}" wx:key>
+      <text decode="true" style="font-size:{{fontSize}}rpx">{{item}}</text>
+    </view>
+  </scroll-view>
+</view>

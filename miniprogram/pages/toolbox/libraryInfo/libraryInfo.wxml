@@ -1,0 +1,16 @@
+<!--miniprogram/pages/toolbox/libraryInfo/libraryInfo.wxml-->
+<cu-custom bgColor="bg-gradual-orange" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">我的信息</view>
+</cu-custom>
+<view class="cu-list menu card-menu sm-border margin-top" wx:if="{{showData}}" >
+  <view class="cu-item" wx:for="{{showData.data}}" wx:key>
+    <view class="content">
+      <text class="text-grey">{{item.name}}</text>
+    </view>
+    <view class="action">
+      <text class="text-grey">{{item.value}}</text>
+    </view>
+  </view>
+</view>
+<view class='cu-tabbar-height'></view>

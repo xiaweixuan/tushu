@@ -1,0 +1,221 @@
+<!--miniprogram/pages/toolbox/library/library.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">图书馆</view>
+</cu-custom>
+<view class='cu-load load-modal' wx:if="{{loadModal}}">
+  <image src='/images/app.svg' class='svg' mode='aspectFit'></image>
+  <view class='gray-text'>查询中...</view>
+</view>
+<block wx:if='{{!showData}}'>
+  <view class="cu-list menu card-menu margin-top">
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-titles text-blue"></text>图书信息查询
+      </view>
+    </view>
+    <view class="cu-item">
+      <image src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/book.svg' style="max-height:400rpx;" />
+    </view>
+    <view class="cu-item">
+      <view class="cu-form-group">
+        <text class="cuIcon-explore text-gray margin-right"></text>
+        <input placeholder="图书名称或作者" maxlength='16' bindinput='inputContent'></input>
+      </view>
+    </view>
+    <view class="cu-item grid col-2">
+      <view class="content padding">
+        <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='searchAuthor'>按作者查</button>
+      </view>
+      <view class="content padding">
+        <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='searchBook'>按书名查</button>
+      </view>
+    </view>
+  </view>
+  <view class="cu-list card-menu grid col-4 no-border">
+    <view class="cu-item" bindtap="useTool" data-tid="1">
+      <view>
+        <image src="/images/tool/user.svg" class="toolItem" />
+      </view>
+      <text>个人信息</text>
+    </view>
+    <view class="cu-item" bindtap="useTool" data-tid="2">
+      <view>
+        <image src="/images/tool/book.svg" class="toolItem" />
+      </view>
+      <text>图书借阅</text>
+    </view>
+    <view class="cu-item" bindtap="useTool" data-tid="3">
+      <view>
+        <!-- <view class="cu-tag badge">9</view> -->
+        <image src="/images/tool/seat.svg" class="toolItem" />
+      </view>
+      <text>阅览室座位</text>
+    </view>
+    <view class="cu-item" bindtap="useTool" data-tid="4">
+      <view>
+        <image src="/images/tool/setting.svg" class="toolItem" />
+      </view>
+      <text>账号设置</text>
+    </view>
+  </view>
+  <view class="cu-list menu card-menu margin-top margin-bottom">
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-titles text-red"></text>用户须知
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content padding">
+        本页面仅提供图书信息检索，对查询结果的正确性和合法性不做任何形式的保证，亦不承担任何法律责任，本页面采集信息仅为用户提供图书查找所用，用户在本程序浏览查看均免费，非商业目的。
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-title text-orange"></text>数据来源
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content grid col-1 padding">
+        <view>河北师范大学图书馆(library.hebtu.edu.cn)</view>
+        <view>豆瓣读书（book.douban.com）</view>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-title text-purple"></text>服务支持
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content padding">
+        ©waface (https://www.waface7.cn)
+      </view>
+    </view>
+  </view>
+</block>
+<block wx:else>
+  <block wx:if="{{showData.num==0}}">
+    <view class="cu-list menu card-menu margin-top">
+      <view class="cu-item">
+        <view class="content">
+          <text class="cuIcon-titles text-blue"></text> 查询结果为空
+        </view>
+      </view>
+      <view class="cu-item">
+        <image src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/nodata.svg' />
+      </view>
+      <view class="cu-item">
+        <view class="content padding">
+          <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='reQuery'>返回</button>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <scroll-view scroll-y class="scrollPage" style='padding-top: 100rpx;' bindscrolltolower='pullData'>
+      <view class="cu-bar bg-white search fixed" style="top:{{CustomBar}}px">
+        <view class="action text-xl">
+          <text class="cuIcon-title text-orange"></text> 已为您找到{{searchTotal}}本
+        </view>
+        <view class='action' bindtap='reQuery'>
+          <button class="cu-btn bg-blue margin-tb-sm shadow" bindtap='reQuery'>重新查询</button>
+        </view>
+      </view>
+      <view class="cu-list menu">
+        <block wx:for='{{showData.book}}' wx:key>
+          <view class='cu-item grid col-1' bindtap='showInfo' data-iden="{{item.detail}}" data-fid='{{index}}'>
+            <view class='content padding'>
+              <view class='text-xl'>{{item.name}}</view>
+              <view class='text-lg text-gray'>{{item.callno}}/{{item.author}}{{item.publish}}</view>
+              <view wx:if='{{item.available>0}}' class='text-lg text-green'>馆藏({{item.total}})/可借({{item.available}})</view>
+              <view wx:else class='text-lg text-gray'>馆藏({{item.total}})/可借({{item.available}})</view>
+            </view>
+          </view>
+
+        </block>
+      </view>
+    </scroll-view>
+  </block>
+
+</block>
+<view class="cu-modal {{bookModal}}">
+  <view class="cu-dialog" style='max-height:70%;'>
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">{{bookData.name}}</view>
+      <view class="action" bindtap="hideBook">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <scroll-view scroll-y class="scrollModalPage">
+      <view class="cu-list menu text-left border-top">
+        <view class='cu-item'>
+          <view class='content"'>
+            <text class="cuIcon-title text-orange"></text>图书信息
+          </view>
+        </view>
+        <view class='cu-item grid col-1'>
+          <view class='content padding'>
+            <view>作者：{{bookData.author}}</view>
+            <view>出版信息：{{bookData.publish}}</view>
+            <view>类别：{{bookData.type}}</view>
+            <view>ISBN：{{borrowData.anotherinfo.isbn}}</view>
+          </view>
+        </view>
+        <view class='cu-item'>
+          <view class='content'>
+            <text class="cuIcon-title text-orange"></text>馆藏信息
+          </view>
+        </view>
+        <view class='cu-item' wx:for='{{borrowData.borrowinfo}}' wx:key>
+          <view class='content padding grid col-2'>
+            <view class='text-xl'>{{item.callno}}</view>
+            <view class='text-lg text-{{item.state=="可借"?"green":"gray"}}'>{{item.state}}</view>
+            <view class='text-lg text-gray'>{{item.place}}</view>
+          </view>
+        </view>
+        <block wx:if='{{borrowData.anotherinfo.authornote}}'>
+          <view class='cu-item'>
+            <view class='content'>
+              <text class="cuIcon-title text-orange"></text>作者简介
+            </view>
+          </view>
+          <view class='cu-item'>
+            <view class='content padding'>
+              {{borrowData.anotherinfo.authornote}}
+            </view>
+          </view>
+        </block>
+        <block wx:if='{{borrowData.anotherinfo.note}}'>
+          <view class='cu-item'>
+            <view class='content'>
+              <text class="cuIcon-title text-orange"></text>图书简介
+            </view>
+          </view>
+          <view class='cu-item'>
+            <view class='content padding'>
+              {{borrowData.anotherinfo.note}}
+            </view>
+          </view>
+        </block>
+        <block wx:if='{{bookCover}}'>
+          <view class='cu-item'>
+            <view class='content'>
+              <text class="cuIcon-title text-orange"></text>图书封面
+            </view>
+          </view>
+          <view class='cu-item'>
+            <view class='padding' style="height:600rpx;width:100%;">
+              <image src='{{bookCover}}' mode="scaleToFill" />
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="padding-xl">
+        <image src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/bookinfo.svg' />
+      </view>
+      <view class='cu-tabbar-height'></view>
+      <view class='cu-tabbar-height'></view>
+    </scroll-view>
+
+  </view>
+</view>

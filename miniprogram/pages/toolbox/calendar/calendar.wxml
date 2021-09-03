@@ -1,0 +1,41 @@
+<!--miniprogram/pages/toolbox/calendar/calendar.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">校历</view>
+</cu-custom>
+<view class="cu-card case">
+  <view class="cu-item shadow">
+    <view class="image" bindtap='preview1920'>
+      <image src="cloud://zaohui-wk65c.7a61-zaohui-wk65c/calendar/s2019-2020.png" mode="widthFix"></image>
+
+    </view>
+    <view class="cu-list padding">
+      <view class='cu-item text-center text-xl'>2019-2020学年</view>
+    </view>
+  </view>
+</view>
+
+<view class="cu-card case">
+  <view class="cu-item shadow">
+    <view class="image" bindtap='preview1819'>
+      <image src="cloud://zaohui-wk65c.7a61-zaohui-wk65c/calendar/s2018-2019.png" mode="widthFix"></image>
+
+    </view>
+    <view class="cu-list padding">
+      <view class='cu-item text-center text-xl'>2018-2019学年</view>
+    </view>
+  </view>
+</view>
+
+
+<view class="cu-card case">
+  <view class="cu-item shadow">
+    <view class="image" bindtap='preview1718'>
+      <image src="cloud://zaohui-wk65c.7a61-zaohui-wk65c/calendar/s2017-2018.png" mode="widthFix"></image>
+
+    </view>
+    <view class="cu-list padding">
+      <view class='cu-item text-center text-xl'>2017-2018学年</view>
+    </view>
+  </view>
+</view>

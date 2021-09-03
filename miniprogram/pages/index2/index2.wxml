@@ -1,0 +1,67 @@
+<!--index.wxml-->
+<view class="container">
+  <button bindtap="normalLogin">默认登录</button>
+  <button bindtap="autoLogin">自动登录</button>
+  <button bindtap="exitLogin">退出登录</button>
+  <button bindtap="currentScore">期末成绩</button>
+  <button bindtap="allScore">历年成绩</button>
+  <button bindtap="filterScore">学期成绩</button>
+  <button bindtap="getTable">课程表</button>
+  <button bindtap="extendScore">第二课堂</button>
+  <button bindtap="peScore">体测成绩</button>
+  <button bindtap="room">空闲教室</button>
+  <button bindtap="toolbox">更多工具</button>
+  <button bindtap="notice">通知公告</button>
+  <button bindtap="scoreState">学分统计</button>
+  <button bindtap="uploadImage">上传图片</button>
+  <button bindtap="brrowInfo">图书借阅</button>
+  <button bindtap="getSeatList">座位查询</button>
+
+  <!-- 用户 openid -->
+  <view class="userinfo">
+    <button 
+      open-type="getUserInfo" 
+      bindgetuserinfo="onGetUserInfo"
+      class="userinfo-avatar"
+      style="background-image: url({{avatarUrl}})"
+    ></button>
+    <view>
+      <button class="userinfo-nickname" bindtap="onGetOpenid">点击获取 openid</button>
+    </view>
+  </view>
+
+
+  <!-- 上传图片 -->
+  <view class="uploader">
+    <view class="uploader-text" bindtap="doUpload">
+      <text>上传图片</text>
+    </view>
+    <view class="uploader-container" wx:if="{{imgUrl}}">
+      <image class="uploader-image" src="{{imgUrl}}" mode="aspectFit" bindtap="previewImg"></image>
+    </view>
+  </view>
+
+
+  <!-- 操作数据库 -->
+  <view class="uploader">
+    <navigator url="../databaseGuide/databaseGuide" open-type="navigate" class="uploader-text">
+      <text>前端操作数据库</text>
+    </navigator>
+  </view>
+
+  <!-- 新建云函数 -->
+  <view class="uploader">
+    <navigator url="../addFunction/addFunction" open-type="navigate" class="uploader-text">
+      <text>快速新建云函数</text>
+    </navigator>
+  </view>
+
+  <!-- 云调用 -->
+  <view class="uploader">
+    <navigator url="../openapi/openapi" open-type="navigate" class="uploader-text">
+      <text>云调用</text>
+    </navigator>
+  </view>
+
+
+</view>

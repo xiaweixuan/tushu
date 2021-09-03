@@ -1,0 +1,99 @@
+<!--miniprogram/pages/toolbox/currentScore/currentScore.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">学期成绩</view>
+</cu-custom>
+<view class='cu-load load-modal' wx:if="{{loadModal}}">
+  <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+  <image src='/images/app.svg' class='svg' mode='aspectFit'></image>
+  <view class='gray-text'>查询中...</view>
+</view>
+<block wx:if='{{!showData}}'>
+  <view class="cu-list menu card-menu margin-top">
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-titles text-blue"></text> 学期成绩查询
+      </view>
+    </view>
+    <view class="cu-item">
+      <image src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/score.svg' />
+    </view>
+    <view class="cu-item">
+      <view class="content flex justify-center">
+        <view class="text-xxl">
+          <picker mode="multiSelector" bindchange="bindMultiPickerChange" value="{{multiIndex}}" range="{{multiArray}}">
+            <view class="picker">
+              {{multiArray[0][multiIndex[0]]}}学年 第{{multiArray[1][multiIndex[1]]}} 学期
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content padding">
+        <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='queryScore'>查询</button>
+      </view>
+    </view>
+  </view>
+</block>
+<block wx:else>
+  <block wx:if="{{showData.scoreList.length==0}}">
+    <view class="cu-list menu card-menu margin-top">
+      <view class="cu-item">
+        <view class="content">
+          <text class="cuIcon-titles text-blue"></text> 查询结果为空
+        </view>
+      </view>
+      <view class="cu-item">
+        <image src='cloud://ylmc2019.796c-ylmc2019-1256364330/illustrator/nodata.svg' />
+      </view>
+      <view class="cu-item">
+        <view class="content padding">
+          <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='backQuery'>返回</button>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <block wx:for='{{showData.scoreList}}' wx:key>
+      <view class="cu-bar bg-white solid-bottom {{toggleDelay?'animation-slide-left':''}}" id="{{index}}" style="animation-delay: {{(index+1)*0.1}}s;" bindtap="showMore">
+        <view class="action" wx:if="{{item.zpcj<60 || item.zpcj=='不合格'}}">
+          <text class="cuIcon-title text-red"></text> {{item.kcm}}
+        </view>
+        <view class="action" wx:if="{{item.zpcj>=60 || item.zpcj=='合格'}}">
+          <text class="cuIcon-title text-green"></text> {{item.kcm}}
+        </view>
+        <view class="action">
+          {{item.zpcj}}
+        </view>
+      </view>
+
+      <view class='cu-list grid col-2' wx:if='{{item.hide==0}}'>
+        <view class="cu-item">
+          课程代码:{{item.kch}}
+        </view>
+        <view class="cu-item">
+          课程性质:{{item.category}}
+        </view>
+        <view class="cu-item">
+          任课教师:{{item.teacher}}
+        </view>
+        <view class="cu-item">
+          是否作废:{{item.cjsfzf}}
+        </view>
+        <view class="cu-item">
+          考试性质:{{item.kcxz}}
+        </view>
+        <view class="cu-item">
+          学分:{{item.xf}}
+        </view>
+        <view class="cu-item">
+          绩点:{{item.jd}}
+        </view>
+        <view class="cu-item" wx:if="{{item.pscj}}">{{item.pscjbq}}:{{item.pscj}}</view>
+        <view class="cu-item" wx:if="{{item.qmcj}}">{{item.qmcjbq}}:{{item.qmcj}}</view>
+      </view>
+    </block>
+  </block>
+
+</block>

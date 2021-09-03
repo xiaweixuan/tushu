@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/home/home",
+    "pages/table/table",
+    "pages/tool/tool",
+    "pages/toolbox/notice/notice",
+    "pages/toolbox/currentScore/currentScore",
+    "pages/toolbox/allScore/allScore",
+    "pages/toolbox/filterScore/filterScore",
+    "pages/toolbox/extendScore/extendScore",
+    "pages/toolbox/calendar/calendar",
+    "pages/toolbox/room/room",
+    "pages/toolbox/scoreState/scoreState",
+    "pages/toolbox/translate/translate",
+    "pages/toolbox/bindLibrary/bindLibrary",
+    "pages/toolbox/seatManager/seatManager",
+    "pages/toolbox/libraryInfo/libraryInfo",
+    "pages/toolbox/article/article",
+    "pages/toolbox/library/library",
+    "pages/toolbox/libraryBook/libraryBook",
+    "pages/toolbox/ifix/ifix",
+    "pages/toolbox/historyArticle/historyArticle",
+    "pages/toolbox/tomorrowSeat/tomorrowSeat"
+  ],
+  "window": {
+    "navigationStyle": "custom"
+  },
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {
+    "cu-custom": "/colorui/components/cu-custom",
+    "cu-table": "colorui/table/cu-table"
+  }
+}

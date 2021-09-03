@@ -1,0 +1,83 @@
+<!--miniprogram/pages/toolbox/translate/translate.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">机器翻译</view>
+</cu-custom>
+<view class="cu-list text-lg bg-white card-menu margin-top">
+  <view class="cu-item solid-bottom">
+    <view class="content flex padding">
+      <view class="basis-sm" wx:if="{{sourceData}}">
+        <picker bindchange="selSource" value="{{index}}" range="{{sourceData}}" range-key="name">
+          <view class="text-right">
+            源语言：{{sourceData[index].name}}
+          </view>
+        </picker>
+      </view>
+      <view class="basis-xs text-center flex align-center justify-center">
+        <view>
+          <text class="cuIcon-right text-gray"></text>
+        </view>
+      </view>
+      <view class="basis-sm" wx:if="{{targetData}}">
+        <picker bindchange="selTarget" value="{{index2}}" range="{{targetData}}" range-key="name">
+          <view class="text-left">
+            目标语言：{{targetData[index2].name}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content padding">
+      <textarea class="" bindinput="sourceInput" placeholder="请输入文字" maxlength="150" value="{{userData}}" />
+    </view>
+  </view>
+  <view class="cu-item solid-bottom solid-top">
+    <view class="content padding flex justify-between">
+      <view class="basis-sm">
+        <button class="block cu-btn bg-blue shadow" bindtap="clean" type=''>清空</button>
+      </view>
+      <view class="basis-sm">
+        <button class="block cu-btn bg-blue shadow" bindtap="translateButton" type=''>翻译</button>
+      </view>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content padding">
+      <text class="cuIcon-titles text-blue"></text>翻译结果
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content padding">
+      <textarea class="" disabled='true' maxlength="150" value="{{translateData}}" />
+    </view>
+  </view>
+</view>
+<view class="cu-list menu card-menu">
+  <view class="cu-item">
+    <view class="content text-xs padding text-gray">
+      机器翻译目前支持 15 个语种，83 种语言对的翻译能力，其中中英互译引擎已经在新闻、教育和部分科技领域达到业界领先水平。结合了神经机器翻译和统计机器翻译的优点，从大规模双语语料库自动学习翻译知识，实现从源语言文本到目标语言文本的自动翻译。
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <text class="cuIcon-title text-red"></text>用户须知
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content text-xs padding text-gray">
+      本页面以非人工方式提供翻译结果，对翻译结果的正确性和合法性不做任何形式的保证，亦不承担任何法律责任。
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <text class="cuIcon-title text-purple"></text>服务支持
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content padding">
+      ©waface (https://www.waface7.cn)
+    </view>
+  </view>
+</view>
+<view class='cu-tabbar-height'></view>

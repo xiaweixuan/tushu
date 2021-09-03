@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "home": "/pages/home/home",
+    "table": "/pages/table/table",
+    "tool": "/pages/tool/tool"
+  }
+}

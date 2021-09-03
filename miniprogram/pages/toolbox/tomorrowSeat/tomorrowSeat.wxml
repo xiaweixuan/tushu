@@ -1,0 +1,115 @@
+<!--miniprogram/pages/toolbox/tomorrowSeat/tomorrowSeat.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">预约抢座</view>
+</cu-custom>
+<view class="cu-list menu card-menu margin-top" wx:if="{{mode==1 || mode==3}}">
+  <view class=" cu-item">
+    <view class="content">
+      <text class="cuIcon-titles text-blue"></text> 抢座须知
+    </view>
+  </view>
+  <view class=" cu-item">
+    <view class="content text-gray padding">
+      <view>1.抢座开放时间为20:00-21:00</view>
+      <view>2.抢座功能成功率并非100%</view>
+      <view>3.抢座过程中请不要登录账号否则可能导致抢座失败</view>
+      <view>4.抢座结果将以服务通知方式发送给您</view>
+    </view>
+  </view>
+</view>
+<view class="cu-list menu card-menu margin-top" wx:if="{{mode==3}}">
+  <view class="cu-item">
+    <view class="content">
+      <text class="cuIcon-titles text-blue"></text>
+      <text>预约信息</text>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content padding">
+      <view class="flex" wx:if="{{isVip}}">
+        <view>学号：{{userData.sno}} </view>
+        <image class="svip" src="/images/vip.svg"></image><text class="text-gray">(超级会员加速中)</text>
+      </view>
+      <view wx:else>
+        学号：{{userData.sno}}
+      </view>
+      <view>优先级：{{userData.priority}}</view>
+      <view>场馆：{{userData.libname}}</view>
+      <view>座位：{{userData.nums[0]}},{{userData.nums[1]}}</view>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content padding">
+      <button class="cu-btn bg-blue shadow block" bindtap="powerSeat">加速抢座</button>
+     
+    </view>
+    <view class="content padding">
+       <button class="cu-btn bg-blue shadow block" bindtap="cancelSeat">取消预定</button>
+    </view>
+  </view>
+</view>
+<view class="cu-list menu card-menu margin-top" wx:if="{{mode==1}}">
+  <view class="cu-item">
+    <view class="content">
+      <text class="cuIcon-titles text-blue"></text>
+      <text>场馆列表</text>
+    </view>
+  </view>
+  <view class="cu-item" wx:for="{{listData}}" wx:key>
+    <view class="content padding-sm">
+      <view>{{item.rname}}</view>
+      <view class="text-gray">座位数：{{item.total}}</view>
+    </view>
+    <view class="action">
+      <form report-submit="true" bindsubmit="getFormId">
+        <button form-type="submit" class="cu-btn bg-blue shadow" bindtap="orderSeat" data-libid="{{item.rid}}" data-libname="{{item.rname}}">预约抢座</button>
+      </form>
+    </view>
+  </view>
+</view>
+
+<block wx:if="{{mode==2 && roomData}}">
+  <view class="cu-list menu orderBar" style="top:{{CustomBar}}px;">
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-titles text-blue"></text>
+        <text class="text-grey">主选:{{sid}}</text>
+        <text class="cuIcon-titles text-blue"></text>
+        <text class="text-grey">备选:{{bid}}</text>
+      </view>
+      <view class="action">
+        <form report-submit="true" bindsubmit="getFormId">
+          <button form-type="submit" class="cu-btn bg-blue shadow" bindtap="creatSeat">预约</button>
+          <button form-type="submit" class="margin-left cu-btn bg-orange shadow" bindtap="backList">返回</button>
+        </form>
+      </view>
+    </view>
+  </view>
+  <movable-area scale-area="true" style="margin-top:100rpx;">
+    <movable-view style="width:{{(roomData[0].seat.maxY+2)*35}}px;height:{{(roomData[0].seat.maxX+2)*35}}px;" direction="all" scale scale-min="0.5" scale-max="3" scale-value="0.5">
+      <block wx:for="{{roomData[0].seat.list}}" wx:key>
+        <view class="grid_cell {{sid==item.num ||bid==item.num?'grid_choose':'grid_1'}}" wx:if="{{item.type==1}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text bindtap="selSeat" data-key="{{item.x}},{{item.y}}" data-num="{{item.num}}">{{item.num}}</text>
+        </view>
+        <view class="grid_cell grid_2" wx:if="{{item.type==2}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text></text>
+        </view>
+        <view class="grid_cell grid_3" wx:if="{{item.type==3}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text></text>
+        </view>
+        <view class="grid_cell grid_active" wx:if="{{item.type==4}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text>{{item.num}}</text>
+        </view>
+        <view class="grid_cell grid_4" wx:if="{{item.type==5}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text>{{item.num}}</text>
+        </view>
+        <view class="grid_cell grid_5" wx:if="{{item.type==6}}" style="left:{{(item.y-2)*35}}px;top:{{(item.x-2)*35}}px;">
+          <text>{{item.num}}</text>
+        </view>
+      </block>
+    </movable-view>
+  </movable-area>
+
+</block>
+<view class='cu-tabbar-height'></view>

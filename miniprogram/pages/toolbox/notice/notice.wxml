@@ -1,0 +1,22 @@
+<!--miniprogram/pages/notice/notice.wxml-->
+<scroll-view scroll-y class="scrollPage">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="content">通知公告</view>
+</cu-custom>
+<view class="cu-timeline">
+  <block wx:for="{{noticeData.notice}}" wx:key>
+  <view class="cu-item text-{{item.color}}" >
+    <view class="bg-{{item.color}} content shadow">
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-white text-{{item.color}}">{{item.version}}</view>
+        <view class="cu-tag line-white">{{item.date}}</view>
+      </view>
+      <view class="margin-top-sm text-content">
+        <view wx:for="{{item.text}}" wx:key>{{item}}</view>
+      </view>
+    </view>
+  </view>
+  </block>
+</view>
+<view class='cu-tabbar-height'></view>
+</scroll-view>

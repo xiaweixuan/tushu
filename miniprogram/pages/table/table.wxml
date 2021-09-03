@@ -1,0 +1,91 @@
+<!--miniprogram/pages/table/table.wxml-->
+<cu-table isCustom="{{true}}" bgImage="https://ylmc2018-1256413011.cos.ap-beijing.myqcloud.com/colorui/header.png">
+  <view slot="content">
+    <view>课程表-第{{teachWeek}}周</view>
+  </view>
+</cu-table>
+
+<view class='cu-bar flex bg-white fixed' style="top:{{CustomBar}}px">
+  <view class='basis-time text-center flex justify-center align-center'>
+    <view>
+      <view class='flex-sub'>{{Month}}</view>
+      <view class='flex-sub'>月</view>
+    </view>
+  </view>
+  <view class='basis-{{WeekSel==5?"no":""}}week flex justify-center align-center {{(index+1)==week?"bg-gray":""}}' wx:for='{{WeekSel}}' wx:key style='padding:10rpx;'>
+    <view class='text-center'>
+      <view class='{{(index+1)==week?"text-lg text-bold":""}}'>周{{WeekItemCN[index]}}</view>
+      <view class='text-sm'>{{WeekDate[index]}}</view>
+    </view>
+  </view>
+</view>
+
+<scroll-view scroll-y class="scrollTablePage bgImage" style='background-image: url("{{backimgData}}");'>
+  <view class='flex' style='margin-top:100rpx;'>
+    <view class='basis-time'>
+      <view class='cu-tableItem-height flex align-center justify-center bg-white' wx:for='{{13}}' wx:key>
+        {{index+1}}
+      </view>
+    </view>
+    <view class='basis-{{WeekSel==5?"no":""}}week' wx:for='{{WeekSel}}' wx:key wx:for-index="x">
+
+      <block wx:for="{{tableInfo.subject}}" wx:key>
+        <block wx:if='{{item.week==x+1}}'>
+          <block wx:if="{{teachWeek>=item.weekstart && teachWeek<=item.weekend}}">
+            <view class='tableItem flex cu-tableItem-height-{{item.span}} basis-{{WeekSel==5?"no":""}}week real-{{WeekSel==5?"no":""}}week' style='top:{{180*(item.start-1)+100}}rpx;' wx:if="{{!turnBack}}">
+              <view class='tableSmall' style='background-color:rgba({{Color[item.start+item.week]}},{{Opacity}})' bindtap='selItem' data-id='{{index}}'>{{item.course}}{{item.category}}{{item.address}}</view>
+            </view>
+          </block>
+          <block wx:else>
+            <view class='tableItem flex cu-tableItem-height-{{item.span}} basis-{{WeekSel==5?"no":""}}week real-{{WeekSel==5?"no":""}}week' style='top:{{180*(item.start-1)+100}}rpx;' wx:if="{{turnBack}}">
+              <view class='tableSmall' style='background-color:rgba(197,204,202,{{Opacity}})' bindtap='selItem' data-id='{{index}}'>[非本周]{{item.course}}{{item.category}}{{item.address}}</view>
+            </view>
+          </block>
+        </block>
+      </block>
+
+    </view>
+  </view>
+  <view class='cu-tabbar-height'></view>
+</scroll-view>
+<view class="cu-modal {{tableModal}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end solid-bottom">
+      <view class="content">课程信息</view>
+      <view class="action" bindtap="hideTableModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class='text-left'>
+      <view class="cu-form-group ">
+        <view class="title">课程名称</view>
+        <input placeholder="填写课程名称" value='{{selItem.course}}' disabled='true'></input>
+      </view>
+      <view class="cu-form-group ">
+        <view class="title">授课教师</view>
+        <input placeholder="填写授课教师" value='{{selItem.teacher}}' disabled='true'></input>
+      </view>
+      <view class="cu-form-group ">
+        <view class="title">上课时间</view>
+        <input placeholder="选择上课时间" value='{{selItem.start}}-{{selItem.start+selItem.span-1}}' disabled='true'></input>
+      </view>
+      <view class="cu-form-group ">
+        <view class="title">上课地点</view>
+        <input placeholder="填写上课地点" value='{{selItem.address}}' disabled='true'></input>
+      </view>
+      <view class="cu-form-group ">
+        <view class="title">起止周次</view>
+        <input placeholder="选择起止周" value='{{selItem.weekstart}}-{{selItem.weekend}}' disabled='true'></input>
+      </view>
+      <view class="cu-form-group ">
+        <view class="title">课程性质</view>
+        <input placeholder="填写课程性质" value='{{selItem.category}}' disabled='true'></input>
+      </view>
+    </view>
+    <view class="cu-bar bg-white justify-end solid-top">
+      <view class="action">
+        <button class="cu-btn bg-gray" bindtap="hideTableModal">关闭</button>
+      </view>
+    </view>
+  </view>
+</view>

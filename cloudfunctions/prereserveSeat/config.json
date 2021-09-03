@@ -1,0 +1,9 @@
+{
+  "triggers": [
+    {
+      "name": "preSeat",
+      "type": "timer",
+      "config": "*/10 0 22 * * * *"
+    }
+  ]
+}

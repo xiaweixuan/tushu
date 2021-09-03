@@ -1,0 +1,50 @@
+<!--miniprogram/pages/toolbox/libraryBook/libraryBook.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">图书馆</view>
+</cu-custom>
+<view class="cu-list menu card-menu margin-top" wx:for="{{showData.data.Currentbook}}" wx:key wx:if="{{showData.data.Currentbook}}">
+  <view class="cu-item">
+    <view class="content padding-sm">
+      {{item.title}}
+    </view>
+    <view class="action padding-left">
+      <button class="cu-btn bg-blue shadow" bindtap="renew" data-barcode="{{item.barcode}}">续借</button>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <text class="text-grey">{{item.desc}}</text>
+    </view>
+  </view>
+  <view class="cu-item" wx:for="{{item.info}}" wx:key>
+    <view class="content">
+      <text class="text-grey">{{item}}</text>
+    </view>
+  </view>
+</view>
+
+<view class="cu-list menu card-menu margin-top" wx:for="{{showData.data.book}}" wx:key wx:if="{{showData.data.book}}">
+  <view class="cu-item">
+    <view class="content">
+      {{item.title}}
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <text class="text-grey">借书时间：{{item.bdate}}</text>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <text class="text-grey">还书时间：{{item.rdate}}</text>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <text class="text-grey">馆藏地点：{{item.addr}}</text>
+    </view>
+  </view>
+</view>
+
+<view class='cu-tabbar-height'></view>

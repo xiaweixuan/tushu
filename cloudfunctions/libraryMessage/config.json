@@ -1,0 +1,9 @@
+{
+  "triggers": [
+    {
+      "name": "libraryMessage",
+      "type": "timer",
+      "config": "0 */10 8-22 * * * *"
+    }
+  ]
+}

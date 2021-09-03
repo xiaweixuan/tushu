@@ -1,0 +1,58 @@
+<!--miniprogram/pages/toolbox/bindLibrary/bindLibrary.wxml-->
+<cu-custom bgColor="bg-gradual-orange" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">图书馆账号</view>
+</cu-custom>
+<view class="cu-list menu card-menu sm-border margin-top" wx:if="{{!hasUser}}">
+  <view class="cu-item">
+    <view class="content">
+      <text class="cuIcon-titles text-blue"></text>
+      <text class="text-grey">绑定图书馆账号</text>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <view class="cu-form-group">
+        <text class="cuIcon-my text-grey margin-right"></text>
+        <input placeholder="学号" type='number' maxlength='10' bindinput='inputSno'></input>
+      </view>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <view class="cu-form-group">
+        <text class="cuIcon-lock text-grey margin-right"></text>
+        <input placeholder="图书馆密码" password='true' maxlength='32' bindinput='inputPwd'></input>
+      </view>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='login'>登录</button>
+    </view>
+  </view>
+   <view class="cu-item">
+    <view class="content padding">
+     <text class="text-grey">温馨提示：为安全起见,您的账户与密码均保留在您的手机,当您清除缓存时可能需要重新登录。</text>
+    </view>
+  </view>
+</view>
+
+<view class="cu-list menu card-menu sm-border margin-top" wx:if="{{hasUser}}">
+  <view class="cu-item">
+    <view class="content">
+      <text class="cuIcon-titles text-blue"></text>
+      <text class="text-grey">解绑图书馆账号</text>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      当前账号：{{sno}}
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <button class="cu-btn block bg-blue margin-tb-sm lg shadow" bindtap='unLogin'>解除绑定</button>
+    </view>
+  </view>
+ </view>
